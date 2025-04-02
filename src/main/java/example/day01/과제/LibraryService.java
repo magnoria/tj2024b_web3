@@ -1,4 +1,4 @@
-package example.과제;
+package example.day01.과제;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
