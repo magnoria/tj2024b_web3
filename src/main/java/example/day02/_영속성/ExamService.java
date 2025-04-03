@@ -29,8 +29,10 @@ public class ExamService {
 
         // 2. 영속 상태 ( Persistent ) , .persist( 비영속객체  ); :영속성 (연결)부여
         entityManager.persist( examEntity1 ); // 영속성 부여한다.
+
         // 자바객체 <--영속성--> DB 매핑
         System.out.println("★영속상태 : " + examEntity1 );
+
         // * 영속 상태에서 수정
         examEntity1.setName("강호동");
         entityManager.flush(); // 트랜잭션 중간에 commit(완료)
@@ -39,6 +41,7 @@ public class ExamService {
         // 3. 준영속 상태( Detached ) .detach( 영속된객체 ); 영속성 (연결)해제
         entityManager.detach( examEntity1 );
         System.out.println("★비영속상태 : " + examEntity1 );
+
         // * 준영속 상태에서 수정
         examEntity1.setName("신동엽");
         entityManager.flush();
