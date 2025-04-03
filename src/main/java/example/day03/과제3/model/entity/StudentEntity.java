@@ -25,7 +25,9 @@ public class StudentEntity extends BaseTime {
     private CourseEntity courseEntity;
 
     public StudentDto toDto(){
-        return StudentDto.builder().sno(this.sno).sname(this.sname).cno(this.courseEntity.getCno()).build();
+        return StudentDto.builder().sno(this.sno).sname(this.sname)
+                .cno(this.courseEntity.getCno())// 여기 cno를 추가함, 없을시 값을 못가져와서 0으로 출력
+                .build();
     }
 
 }
