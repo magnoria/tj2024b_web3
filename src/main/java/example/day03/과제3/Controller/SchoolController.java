@@ -22,7 +22,7 @@ public class SchoolController {
         return schoolService.post(courseDto);
     }
     //2.과정 전체조회
-    @GetMapping("/course/find")
+    @GetMapping("/course")
     public List<CourseDto> SchoolGet(){
         System.out.println("SchoolController.get");
         return schoolService.SchoolGet();
@@ -37,7 +37,7 @@ public class SchoolController {
     }
 
     //4. 특정 과정에 수강생 전체 조회
-    @GetMapping("/student/find")
+    @GetMapping("/student")
     public List<StudentDto> studentGet(@RequestParam int cno){
         System.out.println("SchoolController.get");
         System.out.println();
