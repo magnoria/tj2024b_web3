@@ -1,4 +1,4 @@
-package example.day03.과제3;
+package example.day04.model.entity;
 
 
 import jakarta.persistence.EntityListeners;
@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @Getter
 public class BaseTime {
     @CreatedDate
-    private LocalDateTime 생성날짜시간;
+    private LocalDateTime createAt;
 
     @LastModifiedDate
     private LocalDateTime 수정날짜시간;

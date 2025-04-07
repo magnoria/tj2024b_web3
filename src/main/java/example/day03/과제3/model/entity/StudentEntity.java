@@ -1,6 +1,5 @@
 package example.day03.과제3.model.entity;
 
-import example.day03.과제3.BaseTime;
 import example.day03.과제3.model.dto.StudentDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
