@@ -11,11 +11,12 @@ import java.util.List;
 @RestController
 @RequestMapping("/day04/todos")
 @RequiredArgsConstructor
+@CrossOrigin("*") //플러터 dio (web사용시)텍스트 용도
 public class TodoController {
 
     private final TodoService todoService;
 
-    //1. 등록 // {"title" : "제목" , "content" : "내용" , "don" : "false"}
+    //1. 등록 // {"title" : "제목" , "content" : "내용" , "done" : "false"}
     @PostMapping
     public TodoDto todoSave(@RequestBody TodoDto todoDto){
         return todoService.todoSave(todoDto);
