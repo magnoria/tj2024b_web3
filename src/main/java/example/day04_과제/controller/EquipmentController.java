@@ -12,6 +12,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/day04/equip")
 @RequiredArgsConstructor
+@CrossOrigin("*")
 public class EquipmentController {
 
     private final EquipmentService equipmentService;
