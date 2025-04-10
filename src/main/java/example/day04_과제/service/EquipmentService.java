@@ -21,8 +21,8 @@ public class EquipmentService {
     private final EquipmentRepository equipmentRepository;
 
     //1. 등록
-    @PostMapping
-    public EquipmentDto EqupSave(@RequestBody EquipmentDto equipmentDto){
+
+    public EquipmentDto EqupSave( EquipmentDto equipmentDto){
         EquipmentEntity equipmentEntity = equipmentDto.toEquipmentEntity();
         EquipmentEntity save = equipmentRepository.save(equipmentEntity);
         if (save.getId() > 1) {return save.toDto();}
@@ -30,14 +30,14 @@ public class EquipmentService {
     }
 
     //2. 전체조회
-    @GetMapping
+
     public List<EquipmentDto> equipFindAll(){
         return equipmentRepository.findAll().stream().map(EquipmentEntity :: toDto).collect(Collectors.toList());
     }
 
     //3. 개별조회
-    @GetMapping("/view")
-    public EquipmentDto equipFindById(@RequestParam int id){
+
+    public EquipmentDto equipFindById( int id){
         return equipmentRepository.findById(id)
                 .map(EquipmentEntity :: toDto)
                 .orElse(null);
@@ -45,8 +45,8 @@ public class EquipmentService {
     }
 
     //4. 개별수정
-    @PutMapping
-    public EquipmentDto equipUpdate(@RequestBody EquipmentDto equipDto){
+
+    public EquipmentDto equipUpdate( EquipmentDto equipDto){
         return equipmentRepository.findById(equipDto.getId())
                 .map(entity ->{
                     entity.setId(equipDto.getId());
@@ -60,8 +60,8 @@ public class EquipmentService {
     }
 
     //5. 개별삭제
-    @DeleteMapping
-    public boolean equipDelete(@RequestParam int id){
+
+    public boolean equipDelete( int id){
         return  equipmentRepository.findById(id)
                 .map((entity) -> {
                     equipmentRepository.deleteById(id);
@@ -71,8 +71,8 @@ public class EquipmentService {
     }
 
     //6. 전체조회
-    @GetMapping("/Page")
-    public List<EquipmentDto> getFindPage(@RequestParam(defaultValue = "1") int page,@RequestParam(defaultValue = "3") int size){
+
+    public List<EquipmentDto> getFindPage(int page,int size){
         PageRequest pageRequest =
                 PageRequest.of(page-1, size);
 
