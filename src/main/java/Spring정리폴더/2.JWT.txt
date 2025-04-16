@@ -1,0 +1,56 @@
+*인증 방식
+세션방식        (HTTP Session)방식                       토큰(JWT)방식
+저장  :           웹서버                                클라이언트가 관리
+메모리 :       웹서버 메모리 부하                         토큰 유출시 안정성 보장
+만료여부 :      서버에서관리                              클라이언트가 관리
+사용예시 :      보안 유리(작은개발)                        보안 취약
+강의예시 :      web1                                    web3
+실무일반 :      작은규모의 개발                           큰규모의 개발
+
+
+[ JWT ] JSON(객체) WEB TOKEN(징표)
+1. 정의 : JSON 형식의 데이터를 안전하게 사용하기 위한 토큰 기반의 인증 방식
+2. 목적 : 주로 웹/앱 에서 인증과 권한 부여/확인을 위해서 사용
+3. 장점 :
+    1. 무상태 : 서버가 직접 관리하지 않기 때문에 클라이언트에서 확장성이 좋다.
+    2. 보안 : 인증(서명)된 토큰을 무결성 보장하고 중간 공격(해킹) 방지 (+알고리즘)
+    3. HTTP 지원 : HTTP 에서 헤더 정보에 토큰 정보를 담을 수 있어서 통신이 가능하다.(HTTPS 권장)
+        - HTTP(문자 이동 규약)
+        - HTTPS(SSL/TLS 프로토콜 기반 암호화된 HTTP)
+4. 구조 :
+    헤더.페이로드.서명
+    예시]
+        eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.
+        eyJpc3MiOiJ2ZWxvcGVydC5jb20iLCJleHAiOiIxNDg1MjcwMDAwMDAwIiwiaHR0cHM6Ly92ZWxvcGVydC5jb20vand0X2NsYWltcy9pc19hZG1pbiI6dHJ1ZSwidXNlcklkIjoiMTEwMjgzNzM3MjcxMDIiLCJ1c2VybmFtZSI6InZlbG9wZXJ0In0.
+        WE5fMufM0NDSVGJ8cAolXGkyB5RmYwCto1pQwDIqo2w
+    1. 헤더       : 알고리즘 정보 , JWT타입  { 'alg' : 'HS256' , 'typ' : 'JWT' }
+    2. 페이로드    : 실제 정보/값 , 발급 시간 { 'sub' : 값 , 'iat' : 발급시간 , 'name' : 발급자 }
+    3. 서명       : 헤더와 페이로드를 서명하는 알고리즘 ( 비밀키 이용하여 사용한다 )
+        - 비밀키 : 개발자가 임의의 값으로 비밀키를 정의한다.
+
+5. JWT 라이브러리
+    (1) 그레이들 라이브러리 추가
+        implementation 'io.jsonwebtoken:jjwt-api:0.12.6'
+        runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.12.6'
+        runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.12.6'
+    (2) 토큰 / 검증 클래스 만들기
+
+[ 암호화 관련 용어 ]
+1. Base64 : 이진(0/1) 데이터를 텍스트 문자열로 인코딩(변환) 방식
+    -> 목적 : 이미지/파일/암호화된 정보들을 아스키코드(문자열) 형식으로 변환
+    -> 필요한이유 : 이진데이터를 텍스트로 변환, 일부 프로토콜 제약, 보안/암호화 과정
+    -> 예시
+           컴퓨터 : 01101001 ( 이진 데이터 )
+           Base64 인코딩 : a54YQ== ( 문자 형태 )
+
+2. HS256( SHA-256 ) : 대칭 키 암호화 방식 , SHA-256 해시 알고리즘 사용.
+    -> 목적 : 비밀키 이용하여 데이터를 해싱(암호화)하고 그 결과를 서명으로 사용하여 무결성 검증
+    -> 256( bit / 32byte ) 로 해시 결과를 생성한다. 빠르다. 낮은 보안
+    -> 관례적으로 Token 에서 서명할때 주로 사용된다.
+
+* HS512 : 512(bit / 64byte) 로 해시 결과를 생성한다. 더 복잡한하고 긴 암호화 , 느리다 , 높은 보안
+
+3. 해시 알고리즘 : 입력값(데이터)를 고정된 크기의 출력값(해시) 으로 변환하는 함수
+    입력값(사과) --> abc123
+    입력값(배) --> zxc456
+    즉] 두 갱의 서로 다른 데이터를 각 고정된 길이의 코드로 변환
