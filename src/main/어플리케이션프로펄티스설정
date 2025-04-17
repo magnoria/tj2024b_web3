@@ -14,3 +14,6 @@
 # 4. JPA SQL console DML 매개변수 출력
 #logging.level.org.hibernate.SQL = DEBUG
 #logging.level.org.hibernate.orm.jdbc.bind = TRACE
+
+#spring.redis.host=localhost
+#spring.redis.port=6379
