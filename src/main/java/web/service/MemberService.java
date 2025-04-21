@@ -2,6 +2,7 @@ package web.service;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,6 +11,8 @@ import web.model.dto.MemberDto;
 import web.model.entity.MemberEntity;
 import web.model.repository.MemberEntityRepository;
 import web.util.JwtUtil;
+
+import java.util.Set;
 
 @Service //Spring MVC2 service
 @RequiredArgsConstructor
@@ -71,6 +74,24 @@ public class MemberService {
         //5. 조회 성공시 조회된 엔티티를 dto로 변환하여 반환한다.
         return memberEntity.toDto();
 
+    }
+
+    // [4] 로그아웃
+    public void logout( String token ){
+        // 1. 해당 token의 이메일 조회
+        String memail = jwtUtil.validateToken( token );
+        // 2. 조회된 이메일의 redis 토큰 삭제
+        jwtUtil.deleteToken( memail );
+    }
+
+    private final StringRedisTemplate stringRedisTemplate;
+
+    // [5] 최근 24시간내 로그인 한 접속자 수
+    public int loginCount(){ // * 로그인시 레디스에 'RECENT_LOGIN' 이름으로 key 저장
+        // 레디스에 저장된 키 들 중에서 "RECENT_LOGIN:" 으로 시작하는 모든 KEY 반환
+        Set<String> keys = stringRedisTemplate.keys("RECENT_LOGIN:*");
+        // 반환된 개수 확인 , 비어있으면 0 아니면 size() 함수 이용한 key 개수 반환
+        return keys == null ? 0 : keys.size();
     }
 
 
