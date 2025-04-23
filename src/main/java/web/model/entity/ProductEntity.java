@@ -10,7 +10,7 @@ import java.util.List;
 
 @Entity@Table(name = "product")
 @Getter@Setter@Builder@AllArgsConstructor@NoArgsConstructor // 롬복
-public class ProductEntity {
+public class ProductEntity extends BaseTime {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -9,7 +9,7 @@ import java.util.List;
 @Entity@Table(name = "category") //테이블 생성과 매핑
 @Builder
 @Getter@Setter@AllArgsConstructor@NoArgsConstructor // 롬복
-public class CategoryEntity {
+public class CategoryEntity extends BaseTime{
 
     @Id //preimary key
     @GeneratedValue(strategy = GenerationType.IDENTITY) // auto_increment

@@ -6,7 +6,7 @@ import lombok.*;
 @Entity
 @Table(name = "img")
 @Getter@Setter@Builder@AllArgsConstructor@NoArgsConstructor // 롬복
-public class ImgEntity {
+public class ImgEntity extends BaseTime {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
