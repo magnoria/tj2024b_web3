@@ -31,7 +31,7 @@ public class MemberController {
 
     }
 
-    // [2] 로그인 { "memail" : "qwe@naver.com" , "mpwd" : "qwe" }   // redis 키고 테스트 해야함 없으면 오류 뜸
+    // [2] 로그인 {"memail" : "user1@example.com" , "mpwd" : "1234"} 안될시 bcrypt 사이트에서 비밀번호 바꿔서 입력할것  // redis 키고 테스트 해야함 없으면 오류 뜸
     @PostMapping("login") //// http://localhost:8080/member/login
     public ResponseEntity<String> login (@RequestBody MemberDto memberDto){
         String token =  memberService.login(memberDto);
