@@ -205,7 +205,8 @@ public class ProductService {
     }
 
     // 2. 검색+페이징처리 , 위에서 작업한 2번 메소드 주석처리 후 진행.
-    public List<ProductDto> allProducts(long cno , int page , int size , String keyword){
+    //public List<ProductDto> allProducts(Long cno , int page , int size , String keyword){
+    public Page<ProductDto> allProducts(Long cno , int page , int size , String keyword){
         //1. 페이징처리 설정 , page-1 : 1페이지를 0으로 사용하므로 -1 , size : 페이지당 자료개수 , Sort : pno기준으로 DESC 내림차순으로
         Pageable pageable = PageRequest.of(page-1 , size , Sort.by(Sort.Direction.DESC,"pno"));
         //Pageble : 인터페이스 ,import org.springframework.data.domain.Pageable;
@@ -217,7 +218,8 @@ public class ProductService {
             // 예시] 카테고리별 조회 : productEntityRepository.sorkaksemsgkatnaud(pageable);
             Page<ProductEntity> productEntities = productEntityRepository.findBysearch(cno , keyword , pageable);
         // 3. 반환 타입
-        List<ProductDto> productDtoList = productEntities.stream().map(ProductDto::toDto).collect(Collectors.toList());
+        //List<ProductDto> productDtoList = productEntities.stream().map(ProductDto::toDto).collect(Collectors.toList());
+        Page<ProductDto> productDtoList = productEntities.map(ProductDto :: toDto);
         return productDtoList;
     }
 

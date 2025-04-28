@@ -1,6 +1,7 @@
 package web.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import web.model.dto.CategoryDto;
@@ -134,22 +135,24 @@ public class ProductController {
         매개변수 : x
      */
     @GetMapping("/category")
-    public ResponseEntity<List<CategoryDto>> allCategory(){
-        List<CategoryDto> categoryDtoList = productService.allCategory();
-        return ResponseEntity.status(200).body(categoryDtoList);
+    public ResponseEntity<List<CategoryDto> > allCategory(){
+        List< CategoryDto > categoryDtoList = productService.allCategory();
+        return ResponseEntity.status( 200 ).body( categoryDtoList );
     }
 
-
     // 2. 검색+페이징처리 , 위에서 작업한 2번 메소드 주석처리 후 진행. ( + 웹/앱 : 무한스크롤 ) 2번 대신에 추가
-    /*  매핑 : Get , /product/all , List<ProductDto>
+    /*  매핑 : Get , /product/all , List<ProductDto> ---> Page<ProductDto>
         매개변수 : cno(없으면전체조회) , page(현재페이지번호없으면1페이지) , keyword(없으면전체조회)
     */
     @GetMapping("/all")
-    public ResponseEntity<List<ProductDto>> allProducts(@RequestParam(required = false) Long cno , // long(기본타입) Long(참조타입)
-                                                        @RequestParam( defaultValue = "1")int page , // page : 현재 페이지 번호 , defaultValue= "기본값"
-                                                        @RequestParam(defaultValue = "5") int size, // size : 페이지당 게시물수
-                                                        @RequestParam(required = false) String keyword){  // keyword : (제품명) 검색어
-        List<ProductDto> productDtoList = productService.allProducts(cno,page,size,keyword);
+    //public ResponseEntity<List<ProductDto>> allProducts(
+    public ResponseEntity<Page<ProductDto>>  allProducts(
+            @RequestParam(required = false) Long cno , // long(기본타입) Long(참조타입)
+            @RequestParam(defaultValue = "1")int page , // page : 현재 페이지 번호 , defaultValue= "기본값"
+            @RequestParam(defaultValue = "5") int size, // size : 페이지당 게시물수
+            @RequestParam(required = false) String keyword){  // keyword : (제품명) 검색어
+        //List<ProductDto> productDtoList = productService.allProducts(cno,page,size,keyword);
+        Page<ProductDto> productDtoList = productService.allProducts(cno,page,size,keyword);
         return ResponseEntity.status(200).body(productDtoList);
 
 
